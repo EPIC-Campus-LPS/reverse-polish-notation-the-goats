@@ -7,7 +7,7 @@ public class PIP {
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
-
+        System.out.println(infixtoPostfix(input.nextLine()));
 
     }
 
@@ -24,27 +24,21 @@ public class PIP {
 
         for (int i = 0; i < input.length(); i++) {
 
-            if (s.empty() && input.charAt(i) == '+'
+            if (s.empty() && (input.charAt(i) == '+'
                     || input.charAt(i) == '-'
                     || input.charAt(i) == '*'
                     || input.charAt(i) == '/'
-                    || input.charAt(i) == '^') {
+                    || input.charAt(i) == '^')) {
 
                 s.push(input.charAt(i));
 
-            } else {
-
-                result += input.charAt(i);
-
-            }
-
-            if (input.charAt(i) == '+'
+            } else if (input.charAt(i) == '+'
                     || input.charAt(i) == '-'
                     || input.charAt(i) == '*'
                     || input.charAt(i) == '/'
-                    || input.charAt(i) == '^') {
+                    || input.charAt(i) == '^'){
 
-                checkPrecedence(input.charAt(i),s,result);
+                result+=checkPrecedence(input.charAt(i),s,result);
 
             } else {
 
@@ -54,12 +48,12 @@ public class PIP {
 
         }
 
-        return "";
+        return result;
 
     }
 
 
-    static void checkPrecedence(char oper, Stack stack, String output) {
+    static char checkPrecedence(char oper, Stack stack, String output) {
 
         HashMap<Character, Integer> precedence = new HashMap<Character, Integer>();
 
@@ -73,10 +67,13 @@ public class PIP {
             if (precedence.get(oper) > precedence.get(stack.peek())) {
                 stack.push(oper);
             } else {
-                output += stack.pop();
                 break;
             }
+
         }
+
+        return (char) stack.pop();
+
     }
 
 }
