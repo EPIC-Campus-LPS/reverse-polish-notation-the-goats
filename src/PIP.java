@@ -24,28 +24,32 @@ public class PIP {
 
         for (int i = 0; i < input.length(); i++) {
 
-            if (s.empty() && (input.charAt(i) == '+'
+            boolean b = (input.charAt(i) == '+'
                     || input.charAt(i) == '-'
                     || input.charAt(i) == '*'
                     || input.charAt(i) == '/'
-                    || input.charAt(i) == '^')) {
+                    || input.charAt(i) == '^'
+                    || input.charAt(i) == '('
+                    || input.charAt(i) == ')');
+
+            if (s.empty() && b) {
 
                 s.push(input.charAt(i));
 
-            } else if (input.charAt(i) == '+'
-                    || input.charAt(i) == '-'
-                    || input.charAt(i) == '*'
-                    || input.charAt(i) == '/'
-                    || input.charAt(i) == '^'){
+            } else if (b){
 
-                result+=checkPrecedence(input.charAt(i),s,result);
+                result += checkPrecedence(input.charAt(i),s,result);
 
             } else {
 
                 result += input.charAt(i);
-
+                
             }
 
+        }
+
+        while(!s.empty()){
+            result += s.pop();
         }
 
         return result;
@@ -53,27 +57,51 @@ public class PIP {
     }
 
 
-    static char checkPrecedence(char oper, Stack stack, String output) {
+    static String checkPrecedence(char oper, Stack stack, String output) {
 
+        //Hashmap for prescedence of operators
         HashMap<Character, Integer> precedence = new HashMap<Character, Integer>();
 
-        precedence.put('^',1);
-        precedence.put('*',2);
-        precedence.put('/',2);
-        precedence.put('-',3);
-        precedence.put('+',3);
+        precedence.put('(',1);
+        precedence.put('^',2);
+        precedence.put('*',3);
+        precedence.put('/',3);
+        precedence.put('-',4);
+        precedence.put('+',4);
 
-        while(!stack.empty()) {
-            if (precedence.get(oper) > precedence.get(stack.peek())) {
-                stack.push(oper);
-            } else {
-                break;
+        String out = "";
+        //while the stack of operators isn't empty (which it shouldn't be because of the first if statement in main) and the input (next checked) operator's precedence is higher than the top of the stack,
+        if(oper == ')') {
+
+            while(!(stack.peek().equals('('))){
+
+                out += stack.pop();
+
             }
+
+            stack.pop();
+
+        }
+        //if the next operator has less precedence than the top of the stack operator
+        else if(precedence.get(oper) < precedence.get(stack.peek())) {
+
+            out += oper;
+
+            while(!stack.empty() && precedence.get(oper) < precedence.get(stack.peek())) {
+
+                out += stack.pop();
+
+            }
+
+        } else if(precedence.get(oper) >= precedence.get(stack.peek())) {
+
+            stack.push(oper);
 
         }
 
-        return (char) stack.pop();
+        return out;
 
     }
+
 
 }
