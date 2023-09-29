@@ -13,10 +13,19 @@ public class PIP {
 
     static String evaluatePostfix(String input) {
 
+
+
         return "";
 
     }
 
+    /**
+     *
+     * Takes a mathematical expression in Infix notation, contained in a string, and outputs a string with that same expression in Postfix notation
+     *
+     * @param input
+     * @return String postfix
+     */
     static String infixtoPostfix(String input) {
 
         boolean paren = false;
@@ -69,6 +78,16 @@ public class PIP {
     }
 
 
+    /**
+     *
+     * Takes an operator and manipulates it (by adding to output or stack) and returns when an operator should be added to the output
+     *
+     * @param oper
+     * @param stack
+     * @param output
+     * @param paren
+     * @return 1 or multiple string characters
+     */
     static String checkPrecedence(char oper, Stack stack, String output, boolean paren) {
 
         //Hashmap for prescedence of operators
