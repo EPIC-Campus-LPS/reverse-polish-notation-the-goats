@@ -7,7 +7,7 @@ public class PIP {
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
-        System.out.println(infixtoPostfix(input.nextLine()));
+        System.out.println(infixToPostfix(input.nextLine()));
 
     }
 
@@ -26,7 +26,7 @@ public class PIP {
      * @param input
      * @return String postfix
      */
-    static String infixtoPostfix(String input) {
+    static String infixToPostfix(String input) {
 
         boolean paren;
 
@@ -141,13 +141,13 @@ public class PIP {
         } else {
             if(oper == ')') {
                 //if the operator is a closing paren, pop every operater until the opening paren into the output, then get rid of the paren
-                while (!(stack.peek().equals('('))) {
+                while (!(stack.isEmpty()) && !(stack.peek().equals('('))) {
 
                     out += stack.pop();
 
                 }
 
-                stack.pop();
+                if (!stack.isEmpty()) stack.pop();
 
                 //otherwise, there's not an active open parenthesis, so skip the check for closing parenthesis, and check if
                 //if the next operator has less precedence than the top of the stack operator
