@@ -1,4 +1,5 @@
 import java.util.Stack;
+import java.util.Queue;
 import java.util.Scanner;
 import java.util.HashMap;
 
@@ -35,19 +36,6 @@ public class PIP {
 
         for (int i = 0; i < input.length(); i++) {
 
-            //
-            paren = false;
-            for (int j = 0; j < input.length(); j++) {
-
-                if (input.charAt(i) == '(') {
-
-                    paren = true;
-                    break;
-
-                }
-
-            }
-
             boolean b = (input.charAt(i) == '+'
                     || input.charAt(i) == '-'
                     || input.charAt(i) == '*'
@@ -62,7 +50,7 @@ public class PIP {
 
             } else if (b){
 
-                result += checkPrecedence(input.charAt(i),s,result, paren);
+                result += checkPrecedence(input.charAt(i),s);
 
             } else {
 
@@ -76,6 +64,8 @@ public class PIP {
             result += s.pop();
         }
 
+        System.out.println(s);
+
         return result;
 
     }
@@ -87,11 +77,9 @@ public class PIP {
      *
      * @param oper
      * @param stack
-     * @param output
-     * @param paren
      * @return 1 or multiple string characters
      */
-    static String checkPrecedence(char oper, Stack stack, String output, boolean paren) {
+    static String checkPrecedence(char oper, Stack stack) {
 
         //Hashmap for prescedence of operators
         HashMap<Character, Integer> precedence = new HashMap<Character, Integer>();
@@ -104,72 +92,30 @@ public class PIP {
         precedence.put('+',4);
 
         String out = "";
-        if (paren) {
-            //if there's an active open parenthesis
-            if(oper == ')') {
-                //if the operator is a closing paren, pop every operater until the opening paren into the output, then get rid of the paren
-                while(!(stack.peek().equals('('))){
+        //if there's an active open parenthesis
+        if(oper == ')') {
+            //if the operator is a closing paren, pop every operater until the opening paren into the output, then get rid of the paren
+            while(!(stack.peek().equals('('))){
 
-                    out += stack.pop();
-
-                }
-
-                stack.pop();
-
-            }
-            //otherwise if the next operator has less precedence than the top of the stack operator
-            else if(precedence.get(oper) < precedence.get(stack.peek())) {
-
-                // add the next input operator to the output
-                out += oper;
-
-                //while the stack of operators isn't empty and the input (next checked) operator's precedence is higher than the top of the stack,
-                while(!stack.isEmpty() && precedence.get(oper) < precedence.get(stack.peek())) {
-
-                    //pop all the lower precedence operators into the output
-                    out += stack.pop();
-
-                }
-
-            } else if(precedence.get(oper) >= precedence.get(stack.peek())) {
-
-                //otherwise, push the next operator onto the stack
-                stack.push(oper);
-
-            }
-
-        } else {
-            if(oper == ')') {
-                //if the operator is a closing paren, pop every operater until the opening paren into the output, then get rid of the paren
-                while (!(stack.isEmpty()) && !(stack.peek().equals('('))) {
-
-                    out += stack.pop();
-
-                }
-
-                if (!stack.isEmpty()) stack.pop();
-
-                //otherwise, there's not an active open parenthesis, so skip the check for closing parenthesis, and check if
-                //if the next operator has less precedence than the top of the stack operator
-            } else if (precedence.get(oper) < precedence.get(stack.peek())) {
-
-                //push the next operator onto the stack
                 out += stack.pop();
 
-            } else if (precedence.get(oper) >= precedence.get(stack.peek())) {
+            }
 
-                // otherwise, while the stack of operators isn't empty and the input (next checked) operator's precedence is higher than the top of the stack,
-                // and pop all the lower precedence operators into the output
-                out += oper;
+            stack.pop();
 
-                while (!stack.isEmpty() && precedence.get(oper) < precedence.get(stack.peek())) {
+        } else if(precedence.get(stack.peek()) < precedence.get(oper)) { //otherwise if the next operator has less precedence than the top of the stack operator
 
-                    stack.push(oper);
+            while(!stack.isEmpty() && precedence.get(stack.peek()) >= precedence.get(oper)) {
 
-                }
+                //pop all the higher precedence operators into the output
+                out += stack.pop();
 
             }
 
+        } else if(precedence.get(stack.peek()) >= precedence.get(oper)) {
+
+            //otherwise, push the next operator onto the stack
+            stack.push(oper);
         }
 
 
