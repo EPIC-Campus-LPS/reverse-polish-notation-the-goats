@@ -9,6 +9,7 @@ public class PIP {
 
         Scanner input = new Scanner(System.in);
         System.out.println(infixToPostfix(input.nextLine()));
+        //a+b*c+(d*e+f)*g
 
     }
 
@@ -84,12 +85,13 @@ public class PIP {
         //Hashmap for prescedence of operators
         HashMap<Character, Integer> precedence = new HashMap<Character, Integer>();
 
-        precedence.put('(',1);
-        precedence.put('^',2);
+
+        precedence.put('^',4);
         precedence.put('*',3);
         precedence.put('/',3);
-        precedence.put('-',4);
-        precedence.put('+',4);
+        precedence.put('-',2);
+        precedence.put('+',2);
+        precedence.put('(',1);
 
         String out = "";
         //if there's an active open parenthesis
@@ -103,7 +105,7 @@ public class PIP {
 
             stack.pop();
 
-        } else if(precedence.get(stack.peek()) < precedence.get(oper)) { //otherwise if the next operator has less precedence than the top of the stack operator
+        } else if(precedence.get(stack.peek()) >= precedence.get(oper)) { //otherwise if the next operator has more precedence than the top of the stack operator
 
             while(!stack.isEmpty() && precedence.get(stack.peek()) >= precedence.get(oper)) {
 
@@ -112,7 +114,10 @@ public class PIP {
 
             }
 
-        } else if(precedence.get(stack.peek()) >= precedence.get(oper)) {
+            stack.push(oper);
+
+
+        } else if(precedence.get(stack.peek()) < precedence.get(oper)) {
 
             //otherwise, push the next operator onto the stack
             stack.push(oper);
