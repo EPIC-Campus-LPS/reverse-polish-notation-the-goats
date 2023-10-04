@@ -85,13 +85,13 @@ public class PIP {
         //Hashmap for prescedence of operators
         HashMap<Character, Integer> precedence = new HashMap<Character, Integer>();
 
-
+        precedence.put('(',5);
         precedence.put('^',4);
         precedence.put('*',3);
         precedence.put('/',3);
         precedence.put('-',2);
         precedence.put('+',2);
-        precedence.put('(',1);
+
 
         String out = "";
         //if there's an active open parenthesis
