@@ -10,6 +10,7 @@ public class PIP {
         Scanner input = new Scanner(System.in);
         System.out.println(infixToPostfix(input.nextLine()));
         //a+b*c+(d*e+f)*g
+        //3+(4*6+1)
 
     }
 
@@ -99,7 +100,12 @@ public class PIP {
             //if the operator is a closing paren, pop every operater until the opening paren into the output, then get rid of the paren
             while(!(stack.peek().equals('('))){
 
+
+
+
                 out += stack.pop();
+
+                if(stack.empty()){System.out.println("stack is empty dummy"); System.out.println(out);}
 
             }
 
@@ -107,7 +113,7 @@ public class PIP {
 
         } else if(precedence.get(stack.peek()) >= precedence.get(oper)) { //otherwise if the next operator has more precedence than the top of the stack operator
 
-            while(!stack.isEmpty() && precedence.get(stack.peek()) >= precedence.get(oper)) {
+            while(!stack.isEmpty() && precedence.get(stack.peek()) >= precedence.get(oper) && !stack.peek().equals('(')) {
 
                 //pop all the higher precedence operators into the output
                 out += stack.pop();
