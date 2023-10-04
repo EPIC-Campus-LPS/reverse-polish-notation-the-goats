@@ -1,5 +1,4 @@
 import java.util.Stack;
-import java.util.Queue;
 import java.util.Scanner;
 import java.util.HashMap;
 
@@ -8,17 +7,61 @@ public class PIP {
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
-        System.out.println(infixToPostfix(input.nextLine()));
-        //a+b*c+(d*e+f)*g
-        //3+(4*6+1)
+        //System.out.println(infixToPostfix(input.nextLine()));
+        System.out.println(evaluatePostfix(input.nextLine()));
 
     }
 
-    static String evaluatePostfix(String input) {
+    static int evaluatePostfix(String input) {
 
+        Stack s = new Stack();
 
+        int countNum = 0;
 
-        return "";
+        for (int i = input.length()-1; i >= 0; i--) {
+
+            char inC = input.charAt(i);
+
+            s.add(inC);
+
+            boolean b = (inC == '+'
+                    || inC == '-'
+                    || inC == '*'
+                    || inC == '/');
+
+            if (!b) countNum++;
+
+            if (countNum >= 2 && b) {
+
+                if (inC == '+') {
+
+                    s.push((int)s.pop() + (int)s.pop());
+
+                } else if (inC == '-') {
+
+                    int var = (int)s.pop();
+
+                    s.push((int)s.pop() - var);
+
+                } else if (inC == '*') {
+
+                    s.push((int)s.pop() * (int)s.pop());
+
+                } else {
+
+                    int var1 = (int)s.pop();
+
+                    s.push((int)s.pop() / var1);
+
+                }
+
+            }
+
+            countNum--;
+
+        }
+
+        return (int)s.pop();
 
     }
 
