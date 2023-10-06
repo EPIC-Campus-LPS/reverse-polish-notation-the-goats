@@ -1,67 +1,80 @@
 import java.util.Stack;
-import java.util.Scanner;
 import java.util.HashMap;
 
+/**
+ * Class managing Postfix converting and solving
+ *
+ * @author Nathan Hoehndorf, Nicholas Un
+ * @version 1.0, 9/25/23
+ * @see Stack HashMap
+ */
 public class PIP {
-
-    public static void main(String[] args) {
-
-        Scanner input = new Scanner(System.in);
-        //System.out.println(infixToPostfix(input.nextLine()));
-        System.out.println(evaluatePostfix(input.nextLine()));
-
-    }
-
+    /**
+     * Takes a Postfix expression and returns the answer
+     *
+     * @param input input Postfix String read from input
+     * @return integer answer
+     */
     static int evaluatePostfix(String input) {
 
         Stack s = new Stack();
 
         int countNum = 0;
+        int var;
+        char inC;
+        boolean b;
 
-        for (int i = input.length()-1; i >= 0; i--) {
 
-            char inC = input.charAt(i);
+        for (int i = 0; i < input.length(); i++) {
 
-            s.add(inC);
+            inC = input.charAt(i);
 
-            boolean b = (inC == '+'
-                    || inC == '-'
-                    || inC == '*'
-                    || inC == '/');
+             b = (inC == '+'
+                     || inC == '-'
+                     || inC == '*'
+                     || inC == '/');
 
-            if (!b) countNum++;
+            if (!b){
+                countNum++;
+                s.add(inC);
+            }
 
             if (countNum >= 2 && b) {
 
                 if (inC == '+') {
 
-                    s.push((int)s.pop() + (int)s.pop());
+                    s.push(Integer.parseInt(String.valueOf(s.pop())) + Integer.parseInt(String.valueOf(s.pop())));
 
                 } else if (inC == '-') {
 
-                    int var = (int)s.pop();
+                    var = Integer.parseInt(String.valueOf(s.pop()));
 
-                    s.push((int)s.pop() - var);
+                    s.push(Integer.parseInt(String.valueOf(s.pop())) - var);
 
                 } else if (inC == '*') {
 
-                    s.push((int)s.pop() * (int)s.pop());
+                    s.push(Integer.parseInt(String.valueOf(s.pop())) * Integer.parseInt(String.valueOf(s.pop())));
 
                 } else {
 
-                    int var1 = (int)s.pop();
+                    var = Integer.parseInt(String.valueOf(s.pop()));
 
-                    s.push((int)s.pop() / var1);
+                    s.push(Integer.parseInt(String.valueOf(s.pop())) / var);
 
                 }
 
-            }
+                countNum--;
 
-            countNum--;
+            } else if (b){
+                countNum = 0;
+            }
 
         }
 
-        return (int)s.pop();
+
+        var = (int)s.pop();
+
+        return var;
 
     }
 
@@ -73,8 +86,6 @@ public class PIP {
      * @return String postfix
      */
     static String infixToPostfix(String input) {
-
-        boolean paren;
 
         Stack s = new Stack();
         String result = "";
