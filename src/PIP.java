@@ -15,7 +15,7 @@ public class PIP {
      * @param input input Postfix String read from input
      * @return integer answer
      */
-    static int evaluatePostfix(String input) {
+    public static int evaluatePostfix(String input) {
 
         Stack s = new Stack();
 
@@ -85,7 +85,7 @@ public class PIP {
      * @param input
      * @return String postfix
      */
-    static String infixToPostfix(String input) {
+    public static String infixToPostfix(String input) {
 
         Stack s = new Stack();
         String result = "";
@@ -135,7 +135,7 @@ public class PIP {
      * @param stack
      * @return 1 or multiple string characters
      */
-    static String checkPrecedence(char oper, Stack stack) {
+    public static String checkPrecedence(char oper, Stack stack) {
 
         //Hashmap for prescedence of operators
         HashMap<Character, Integer> precedence = new HashMap<Character, Integer>();
@@ -187,6 +187,5 @@ public class PIP {
         return out;
 
     }
-
 
 }
