@@ -25,7 +25,29 @@ public class PIP {
         int var;
         char inC;
         boolean b;
+        int ops = 0; int nums = 0;
 
+        for(int i = 0; i < input.length(); i++){
+
+            input.charAt(i);
+
+            b = (input.charAt(i) == '+'
+                    || input.charAt(i) == '-'
+                    || input.charAt(i) == '*'
+                    || input.charAt(i) == '/'
+                    || input.charAt(i) == '^');
+
+            if (b){
+                ops += 1;
+            }
+            else if (!(input.charAt(i) == '(' || input.charAt(i) == ')')){
+                nums += 1;
+            }
+        }
+
+        if(!(ops+1 == nums)){
+            throw new IllegalArgumentException("Invalid Postfix Exception");
+        }
 
         for (int i = 0; i < input.length(); i++) {
 
@@ -67,7 +89,7 @@ public class PIP {
 
                 countNum--;
 
-            } else if (b){
+            }else if(b){
                 countNum = 0;
             }
 
@@ -91,6 +113,30 @@ public class PIP {
         input = input.replaceAll(" ", "");
         Stack s = new Stack();
         String result = "";
+        int ops = 0;
+        int nums = 0;
+
+        for(int i = 0; i < input.length(); i++){
+
+            input.charAt(i);
+
+            boolean b = (input.charAt(i) == '+'
+                    || input.charAt(i) == '-'
+                    || input.charAt(i) == '*'
+                    || input.charAt(i) == '/'
+                    || input.charAt(i) == '^');
+
+            if (b){
+                ops += 1;
+            }
+            else if (!(input.charAt(i) == '(' || input.charAt(i) == ')')){
+                nums += 1;
+            }
+        }
+
+        if(!(ops+1 == nums)){
+            throw new IllegalArgumentException("Invalid Infix Exception");
+        }
 
         for (int i = 0; i < input.length(); i++) {
 
