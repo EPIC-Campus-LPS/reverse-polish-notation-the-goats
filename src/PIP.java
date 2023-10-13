@@ -17,6 +17,8 @@ public class PIP {
      */
     public static int evaluatePostfix(String input) {
 
+        input = input.replaceAll(" ", "");
+
         Stack s = new Stack();
 
         int countNum = 0;
@@ -86,7 +88,7 @@ public class PIP {
      * @return String postfix
      */
     public static String infixToPostfix(String input) {
-
+        input = input.replaceAll(" ", "");
         Stack s = new Stack();
         String result = "";
 
@@ -120,9 +122,14 @@ public class PIP {
             result += s.pop();
         }
 
-        System.out.println(s);
+        result = result.replaceAll(" ","");
+        String withSpaces = "";
 
-        return result;
+        for(int i = 0; i < result.length(); i++){
+            withSpaces += (result.substring(i,i+1) + " ");
+        }
+
+        return withSpaces;
 
     }
 
@@ -154,12 +161,7 @@ public class PIP {
             //if the operator is a closing paren, pop every operater until the opening paren into the output, then get rid of the paren
             while(!(stack.peek().equals('('))){
 
-
-
-
                 out += stack.pop();
-
-                if(stack.empty()){System.out.println("stack is empty dummy"); System.out.println(out);}
 
             }
 
