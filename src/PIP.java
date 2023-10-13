@@ -116,7 +116,13 @@ public class PIP {
         int ops = 0;
         int nums = 0;
 
+        int open = 0;
+        int close = 0;
+
         for(int i = 0; i < input.length(); i++){
+
+            if (input.charAt(i) == '(') open++;
+            if (input.charAt(i) == ')') close++;
 
             input.charAt(i);
 
@@ -132,6 +138,10 @@ public class PIP {
             else if (!(input.charAt(i) == '(' || input.charAt(i) == ')')){
                 nums += 1;
             }
+        }
+
+        if (open != close) {
+            throw new IllegalArgumentException("Invalid Infix Exception");
         }
 
         if(!(ops+1 == nums)){
